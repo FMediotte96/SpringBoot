@@ -19,8 +19,8 @@ public class DemoController {
 	public String greeting(@RequestParam(name="name",required = false, defaultValue = "World") String name, Model model) {
 		//logica
 		Persona p = new Persona();
-		p.setIdPersona(1);
-		p.setNombre("Facundo");
+		p.setIdPersona(2);
+		p.setNombre("Fernando");
 		repo.save(p);
 		
 		model.addAttribute("name", name);
