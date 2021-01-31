@@ -12,19 +12,19 @@ public class CategoriasController {
 
 	// @GetMapping("/index")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String mostrarIndex(Model model) {
+	public String getIndex(Model model) {
 		return "categorias/listCategorias";
 	}
 
 	// @GetMapping("/create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String crear() {
+	public String create() {
 		return "categorias/formCategoria";
 	}
 
 	// @PostMapping("/save")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String guardar(@RequestParam("nombre") String nombre, 
+	public String save(@RequestParam("nombre") String nombre, 
 			@RequestParam("descripcion") String descripcion) {
 		System.out.println("Categoria: " + nombre);
 		System.out.println("Descripción: " + descripcion);
