@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.empleos.app.model.Vacante;
 import com.empleos.app.service.IVacantesService;
@@ -28,14 +29,21 @@ public class VacantesController {
 	@Autowired
 	private IVacantesService serviceVacantes;
 	
+	@GetMapping("/index")
+	public String showIndex(Model model) {
+		List<Vacante> vacantes = serviceVacantes.getAll();
+		model.addAttribute("vacantes", vacantes);
+		return "vacantes/listVacantes";
+	}
+	
 	@GetMapping("/create")
-	public String create() {
+	public String create(Vacante vacante) {
 		return "vacantes/formVacante";
 	}
 	
 	//Implementando Data Binding
 	@PostMapping("/save")
-	public String save(Vacante vacante, BindingResult result) {
+	public String save(Vacante vacante, BindingResult result, RedirectAttributes attributes) {
 		if(result.hasErrors()) {
 			for(ObjectError error: result.getAllErrors()) {
 				System.out.println("Ocurrio un error: " + error.getDefaultMessage());
@@ -43,8 +51,8 @@ public class VacantesController {
 			return "vacantes/formVacante";
 		}
 		serviceVacantes.save(vacante);
-		System.out.println("Vacante: " + vacante);
-		return "vacantes/listVacantes";
+		attributes.addFlashAttribute("msg", "Registro Guardado");
+		return "redirect:/vacantes/index";
 	}
 	
 	@GetMapping("/delete")
@@ -65,13 +73,6 @@ public class VacantesController {
 		//Buscar los detalles de la vacante en la base de datos
 		
 		return "detalle";
-	}
-	
-	@GetMapping("/index")
-	public String showIndex(Model model) {
-		List<Vacante> vacantes = serviceVacantes.getAll();
-		model.addAttribute("vacantes", vacantes);
-		return "vacantes/listVacantes";
 	}
 	
 	@InitBinder
