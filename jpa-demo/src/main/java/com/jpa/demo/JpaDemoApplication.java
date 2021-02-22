@@ -11,6 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jpa.demo.model.Categoria;
 import com.jpa.demo.repository.CategoriasRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @SpringBootApplication
 public class JpaDemoApplication implements CommandLineRunner {
@@ -24,7 +27,7 @@ public class JpaDemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		saveAll();
+		findAllPaginatedAndOrdered();
 	}
 	
 	/**
@@ -155,5 +158,55 @@ public class JpaDemoApplication implements CommandLineRunner {
 		
 		return lista;
 	}
-	
+
+	/**
+	 * Método findAll - Interfaz JpaRepository
+	 */
+	private void findAllJpa() {
+		List<Categoria> categorias = repo.findAll();
+		for(Categoria c : categorias) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+
+	/**
+	 * Método deleteAllInBatch [Usar con precaución] - Interfaz JpaRepository
+	 */
+	private void deleteAllInBlock() {
+		repo.deleteAllInBatch();
+	}
+
+	/**
+	 * Método findAll [Ordenados por un campo] - Interfaz PagingAndSortingRepository
+	 */
+	private void findAllOrdered() {
+		List<Categoria> categorias = repo.findAll(Sort.by("nombre").descending());
+		for(Categoria c : categorias) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+
+	/**
+	 * Método findAll [Con paginación] - Interfaz PagingAndSortingRepository
+	 */
+	private void findAllPaginated() {
+		Page<Categoria> page = repo.findAll(PageRequest.of(0, 5));
+		System.out.println("Total Registros: " + page.getTotalElements());
+		System.out.println("Total Páginas: " + page.getTotalPages());
+		for(Categoria c : page.getContent()) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+
+	/**
+	 * Método findAll [Con Paginación y Ordenados] - Interfaz PagingAndSortingRepository
+	 */
+	private void findAllPaginatedAndOrdered() {
+		Page<Categoria> page = repo.findAll(PageRequest.of(0, 5, Sort.by("nombre").descending()));
+		System.out.println("Total Registros: " + page.getTotalElements());
+		System.out.println("Total Páginas: " + page.getTotalPages());
+		for(Categoria c : page.getContent()) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
 }
