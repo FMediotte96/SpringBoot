@@ -1,9 +1,14 @@
 package com.jpa.demo.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name="Vacantes")
 public class Vacante {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
 	private String descripcion;
@@ -13,6 +18,9 @@ public class Vacante {
 	private String imagen = "no-image.png";
 	private String status;
 	private String detalles;
+	//@Transient
+	@OneToOne
+	@JoinColumn(name = "idCategoria")
 	private Categoria categoria;
 
 	public Integer getId() {
