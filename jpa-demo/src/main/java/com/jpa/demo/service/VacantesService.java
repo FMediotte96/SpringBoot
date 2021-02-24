@@ -45,4 +45,49 @@ public class VacantesService {
         repoVacantes.save(vacante);
     }
 
+    /**
+     * Query Method: buscar vacantes por status
+     */
+    public void findByStatus() {
+        List<Vacante> lista = repoVacantes.findByStatus("Eliminada");
+        System.out.println("Registros encontrados: " + lista.size());
+        for(Vacante v : lista) {
+            System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getStatus());
+        }
+    }
+
+    /**
+     * Query Method: Buscar Vacantes por Destacado y Status Ordenado por Id Desc
+     */
+    public void getVacantesByDestacadoAndStatus() {
+        List<Vacante> lista = repoVacantes.findByDestacadoAndStatusOrderByIdDesc(1, "Aprobada");
+        System.out.println("Registros encontrados: " + lista.size());
+        for(Vacante v : lista) {
+            System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getStatus() + ": " + v.getDestacado());
+        }
+    }
+
+    /**
+     * Query Method: Buscar Vacantes rango de Salario (Between)
+     */
+    public void getVacantesSalario() {
+        List<Vacante> lista = repoVacantes.findBySalarioBetweenOrderBySalarioDesc(7000, 14000);
+        System.out.println("Registros encontrados: " + lista.size());
+        for(Vacante v : lista) {
+            System.out.println(v.getId() + ": " + v.getNombre() + ": $" + v.getSalario());
+        }
+    }
+
+    /**
+     * Query Method: Buscar Vacantes por varios Status (In)
+     */
+    public void getVacantesVariosStatus() {
+        String[] status = new String[]{"Eliminada", "Aprobada"};
+        List<Vacante> lista = repoVacantes.findByStatusIn(status);
+        System.out.println("Registros encontrados: " + lista.size());
+        for(Vacante v : lista) {
+            System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getStatus());
+        }
+    }
+
 }
