@@ -17,31 +17,31 @@ import com.empleos.app.service.ICategoriasService;
 @Controller
 @RequestMapping(value = "/categorias")
 public class CategoriasController {
-	
-	@Autowired
-	private ICategoriasService serviceCategorias;
 
-	@GetMapping("/index")
-	public String getIndex(Model model) {
-		List<Categoria> categorias = serviceCategorias.getAll();
-		model.addAttribute("categorias", categorias);
-		return "categorias/listCategorias";
-	}
+    @Autowired
+    private ICategoriasService serviceCategorias;
 
-	@GetMapping("/create")
-	public String create(Categoria categoria) {
-		return "categorias/formCategoria";
-	}
+    @GetMapping("/index")
+    public String getIndex(Model model) {
+        List<Categoria> categorias = serviceCategorias.getAll();
+        model.addAttribute("categorias", categorias);
+        return "categorias/listCategorias";
+    }
 
-	@PostMapping("/save")
-	public String save(Categoria categoria, BindingResult result, RedirectAttributes attributes) {
-		if(result.hasErrors()) {
-			System.out.println("Se detectaron errores");
-			return "categorias/formCategoria";
-		}
-		serviceCategorias.save(categoria);
-		attributes.addFlashAttribute("msg", "Registro Guardado");
-		return "redirect:/categorias/index";
-	}
+    @GetMapping("/create")
+    public String create(Categoria categoria) {
+        return "categorias/formCategoria";
+    }
+
+    @PostMapping("/save")
+    public String save(Categoria categoria, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            System.out.println("Se detectaron errores");
+            return "categorias/formCategoria";
+        }
+        serviceCategorias.save(categoria);
+        attributes.addFlashAttribute("msg", "Registro Guardado");
+        return "redirect:/categorias/index";
+    }
 
 }

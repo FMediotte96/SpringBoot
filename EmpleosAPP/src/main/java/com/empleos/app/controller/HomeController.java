@@ -22,7 +22,6 @@ public class HomeController {
 	public String showTable(Model model) {
 		List<Vacante> lista = serviceVacantes.getAll();
 		model.addAttribute("vacantes", lista);
-
 		return "tabla";
 	}
 
@@ -35,7 +34,6 @@ public class HomeController {
 		vacante.setSalario(97000.0);
 
 		model.addAttribute("vacante", vacante);
-
 		return "detalle";
 	}
 
@@ -48,7 +46,6 @@ public class HomeController {
 		lista.add("Arquitecto");
 
 		model.addAttribute("empleos", lista);
-
 		return "listado";
 	}
 
@@ -56,7 +53,6 @@ public class HomeController {
 	public String showHome(Model model) {
 		List<Vacante> lista = serviceVacantes.getAll();
 		model.addAttribute("vacantes", lista);
-		
 		return "home";
 	}
 
